@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,16 +9,23 @@ public class AttackFun : MonoBehaviour
     public Text text; 
     public string showText="";
 
+    [SerializeField]
+    public Army green;
+
+    [SerializeField]
+    public Army red;
+
     private string redColor = "#FF786E";
     private string greenColor = "#6EFF90";
     private string yellowColor = "#FFC700";
+    private string lightColor = "#FFEC9C>";
 
     // Use this for initialization
     void Start()
     {
 
-        Army green=new Army("军士",48+12,28+8,100);
-        Army red= new Army("军士",48 , 28 , 100);
+        //Army green=new Army("军士",48+12,28+8,100);
+        //Army red= new Army("军士",48 , 28 , 100);
 
         green.color = greenColor;
         red.color = redColor;
@@ -26,27 +34,8 @@ public class AttackFun : MonoBehaviour
 
         text.text = showText;
 
-        //print(">>>小号打大号伤害: " + getDamage2(48+12, 28, 100, 1f));
-        //print(">>>大号打小号伤害: " + getDamage2(48, 28+8, 67, 1f));
-        //print(">>>小号打大号伤害: " + getDamage2(48 + 12, 28, 77, 1f));
-        //print(">>>大号打小号伤害: " + getDamage2(48, 28 + 8, 37, 1f));
-        //print(">>>小号打大号伤害: " + getDamage2(48 + 12, 28, 54, 1f));
-        //print(">>>大号打小号伤害: " + getDamage2(48, 28 + 8, 11, 1f));
-
     }
 
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-    public double oneArmyAttack = 1; //单兵伤害加成
-    public double hundredArmyAttack = 1;//每百兵伤害加成
-    public double thousandArmyAttack = 1;//每千兵伤害加成
 
 
     public void ttt(string str)
@@ -57,40 +46,38 @@ public class AttackFun : MonoBehaviour
 
     }
 
-
-
-    public void Battle(Army aaa, Army bbb)
+    public void Battle(Army mGreen, Army mRed)
     {
-        ttt("\n\t\t\t__________战斗开始__________\n");
+        ttt("\n\t\t\t<color="+lightColor+"__________战斗开始__________</color>\n");
         int tempTrun = 1;
-        while (aaa.isLife && bbb.isLife)
+        while (mGreen.isLife && mRed.isLife)
         {
-            ttt("\n\t\t\t__________第" + tempTrun + "回合__________\n");
+            ttt("\n\t\t\t<color="+lightColor+"__________第" + tempTrun + "回合__________</color>\n");
             tempTrun++;
 
-            ttt("<color=" + aaa.color + ">" + aaa.name + "</color>对" + "<color=" + bbb.color + ">" + bbb.name + "</color>" + "发动普通攻击");
-            ttt("\t" + "<color=" + bbb.color + ">" + bbb.name + " </color>损失" + "<color=" + yellowColor + ">" + aaa.Attack(bbb) + "</color>" + "兵力(" + bbb.getCount() + ")");
+            ttt("<color=" + mGreen.color + ">" + mGreen.name + "</color>对" + "<color=" + mRed.color + ">" + mRed.name + "</color>" + "发动普通攻击");
+            ttt("\t" + "<color=" + mRed.color + ">" + mRed.name + " </color>损失" + "<color=" + yellowColor + ">" + mGreen.Attack(mRed) + "</color>" + "兵力(" + mRed.getCount().ToString("0.0") + ")");
 
-            if (bbb.isLife == false)
+            if (mRed.isLife == false)
             {
                 break;
             }
 
-            ttt("<color=" + bbb.color + ">" + bbb.name + "</color>对" + "<color=" + aaa.color + ">" + aaa.name + "</color>" + "发动普通攻击");
-            ttt("\t" + "<color=" + aaa.color + ">" + aaa.name + " </color>损失" + "<color=" + yellowColor + ">" + bbb.Attack(aaa) + "</color>" + "兵力(" + aaa.getCount() + ")");
+            ttt("<color=" + mRed.color + ">" + mRed.name + "</color>对" + "<color=" + mGreen.color + ">" + mGreen.name + "</color>" + "发动普通攻击");
+            ttt("\t" + "<color=" + mGreen.color + ">" + mGreen.name + " </color>损失" + "<color=" + yellowColor + ">" + mRed.Attack(mGreen) + "</color>" + "兵力(" + mGreen.getCount().ToString("0.0") + ")");
 
 
         }
 
         Army tempArmy;
 
-        if (aaa.isLife)
+        if (mGreen.isLife)
         {
-            tempArmy = bbb;
+            tempArmy = mRed;
         }
         else
         {
-            tempArmy = aaa;
+            tempArmy = mGreen;
         }
 
 
@@ -101,37 +88,37 @@ public class AttackFun : MonoBehaviour
 
 
 
-    public double getDamage(float atk, float def, float armyCount,float rate)
-    {
-        double result;
+    //public double getDamage(float atk, float def, float armyCount,float rate)
+    //{
+    //    double result;
 
-        result = (oneArmyAttack + hundredArmyAttack + thousandArmyAttack + (atk - def) * 0.00005f) * armyCount;
-
-
-        return result;
-    }
-
-    public double getDamage2(float atk, float def, float armyCount, float rate)
-    {
-        // double result = 4.8f * Mathf.Sqrt(armyCount) * ((200 + atk) / (200 + def)) * rate;
-        //if (armyCount < 67)
-        //    armyCount = 67;
-
-      double result =7f * Mathf.Sqrt(armyCount) * ((atk) / (atk+ def)) * rate;
+    //    result = (oneArmyAttack + hundredArmyAttack + thousandArmyAttack + (atk - def) * 0.00005f) * armyCount;
 
 
-        return result;
-    }
+    //    return result;
+    //}
 
-    public double getDamage3(Army aaa, Army bbb)
-    {
-        var temp = getDamage2(aaa.atk, bbb.def, aaa.count, 1f);
-        return temp;
-     }
+    //public double getDamage2(float atk, float def, float armyCount, float rate)
+    //{
+    //    // double result = 4.8f * Mathf.Sqrt(armyCount) * ((200 + atk) / (200 + def)) * rate;
+    //    //if (armyCount < 67)
+    //    //    armyCount = 67;
+
+    //  double result =7f * Mathf.Sqrt(armyCount) * ((atk) / (atk+ def)) * rate;
+
+
+    //    return result;
+    //}
+
+    //public double getDamage3(Army aaa, Army bbb)
+    //{
+    //    var temp = getDamage2(aaa.atk, bbb.def, aaa.count, 1f);
+    //    return temp;
+    // }
 
 }
 
-
+[Serializable]
 public class Army
 {
     public string name;
@@ -162,30 +149,38 @@ public class Army
 
     public float getDamage(float atk, float def, float armyCount, float rate)
     {
-        // double result = 4.8f * Mathf.Sqrt(armyCount) * ((200 + atk) / (200 + def)) * rate;
-        //if (armyCount < 67)
-        //    armyCount = 67;
+        float result;
 
-        float result = 5.2f * Mathf.Sqrt(armyCount) * ((atk) / (atk + def)) * rate;
 
+
+
+        //float result = 5.2f * Mathf.Sqrt(armyCount) * ((atk) / (atk + def)) * rate;
+
+        //  float result = 4.2f *( Mathf.Sqrt(armyCount) +2.1f)* ((atk) / (atk + def)) * rate;
+
+        //  float result = 4.2f * (Mathf.Sqrt(armyCount) + 2.1f) * ((1+atk) / (1+atk + def)) * rate;
+
+         result = 4.7f * (Mathf.Sqrt(armyCount+10)+1f) * (( atk) / ( atk + def)) * rate;
 
         return result;
     }
 
-    public float Attack( Army bbb)
+    public string Attack( Army bbb)
     {
         float tempDamage = getDamage(this.atk, bbb.def, this.count, 1f);
+        
 
- 
-
-        return   bbb.hurt(tempDamage);
+        return   bbb.hurt(tempDamage).ToString("0.0");
     }
 
     public float hurt(float damage)
     {
-        float tempCount = count;
 
-        damage = Mathf.Round(damage);
+        float tempCount = count;
+       
+       // damage =    (float)  Math.Round(Convert.ToDouble(damage), MidpointRounding.AwayFromZero);
+     
+
 
         count -= damage;
         count = Mathf.Max(0, count);
