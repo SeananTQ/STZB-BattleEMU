@@ -241,12 +241,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Army.cs" />
     <Compile Include="Assets\Script\AttackFun.cs" />
+    <Compile Include="Assets\Script\BattleEMU.cs" />
+    <Compile Include="Assets\Script\Buff.cs" />
     <Compile Include="Assets\Script\CreateExcelData.cs" />
     <Compile Include="Assets\Script\Ctrl.cs" />
     <Compile Include="Assets\Script\ExcelReader.cs" />
     <Compile Include="Assets\Script\HeroData.cs" />
     <Compile Include="Assets\Script\JsonReader.cs" />
+    <Compile Include="Assets\Script\MyTools.cs" />
+    <Compile Include="Assets\Script\Skill.cs" />
     <Compile Include="Assets\Script\TableLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -709,6 +709,7 @@ GameObject:
   - component: {fileID: 1622322920}
   - component: {fileID: 1622322924}
   - component: {fileID: 1622322923}
+  - component: {fileID: 1622322925}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -779,7 +780,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1622322919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8a172ee6503e54409b39cf1ec39b417, type: 3}
   m_Name: 
@@ -787,14 +788,27 @@ MonoBehaviour:
   text: {fileID: 1264440892}
   showText: 
   green:
-    name: "\u519B\u58EB"
-    atk: 60
-    def: 36
+    name: "\u5E9E\u5FB7"
+    atk: 119.8
+    def: 145.5
     count: 100
     color: 
   red:
-    name: "\u519B\u58EB"
-    atk: 48
-    def: 28
+    name: "\u5E9E\u5FB7"
+    atk: 107.8
+    def: 137.5
     count: 100
     color: 
+--- !u!114 &1622322925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1622322919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b6ccf9d8a3382043b5eb641c10ce442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testCount: 10000
+  skillA: {fileID: 0}
