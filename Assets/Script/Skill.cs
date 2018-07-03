@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mytools;
 
 public class Skill : MonoBehaviour
 {
@@ -9,17 +8,36 @@ public class Skill : MonoBehaviour
     public string name;
     public float castRate;
 
+    public int targetLowerCount = 1;
+    public int targetUpperCount = 1;
+
+    public int curTrunTargetCount = 1;
     public int readyTime;
     private int curTime = 0;
+
+    public float damageRate = 100;
+
+    public float curDamge = 0;
+    private float totalDamage = 0;
+    private float totalCastCount = 0;
 
     public Skill(string name, float castRate, int readyTime)
     {
         this.name = name;
         this.castRate = castRate;
         this.readyTime = readyTime;
-
-        curTime = readyTime;
     }
+
+    public Skill(string name, float castRate, int readyTime, int targetCount, float damage)
+    {
+        this.name = name;
+        this.castRate = castRate;
+        this.readyTime = readyTime;
+        this.targetLowerCount = targetCount / 10;
+        this.targetUpperCount = targetCount % 10;
+        this.damageRate = damage;
+    }
+
 
 
     public bool isReady()
@@ -34,6 +52,18 @@ public class Skill : MonoBehaviour
             curTime--;
             return false;
         }
+
+    }
+
+    public void Clear()
+    {
+        totalDamage = 0;
+        totalCastCount = 0;
+    }
+
+    public void Casting()
+    {
+
 
     }
 
@@ -52,6 +82,11 @@ public class Skill : MonoBehaviour
                 if (curTime == 0)
                 {
                     //立即施法
+                    MyTools.ins.showSkill(null, this, SkillState.CAST);
+                    curDamge= getDamage();
+                    totalDamage += curDamge;
+                    MyTools.ins.showSkill(null, this, SkillState.DAMAGE);
+                    totalCastCount++;
                     return true;
                 }
                 else
@@ -69,6 +104,7 @@ public class Skill : MonoBehaviour
                 {
                     //开始蓄力
                     curTime = readyTime;
+                    MyTools.ins.showSkill(null, this, SkillState.READY_1);
                     return false;
                 }
                 else
@@ -87,6 +123,14 @@ public class Skill : MonoBehaviour
             rand = Random.Range(0, 100);
             if (rand < castRate)
             {
+                //立即施法
+                MyTools.ins.showSkill(null, this, SkillState.CAST);
+                curDamge = getDamage();
+                totalDamage += curDamge;
+                MyTools.ins.showSkill(null, this, SkillState.DAMAGE);
+
+
+                totalCastCount++;
                 return true;
             }
             else
@@ -95,4 +139,36 @@ public class Skill : MonoBehaviour
             }
         }
     }
+
+    public int TargetCount()
+    {
+        if (targetUpperCount == 1)
+        {
+            return 1;
+        }
+        else
+        {
+            int temp = Random.Range(targetLowerCount, targetUpperCount + 1);
+
+            return temp;
+        }
+    }
+
+
+    private float getDamage()
+    {
+        float damge;
+
+        curTrunTargetCount = TargetCount();
+        damge = curTrunTargetCount * damageRate;
+
+
+        return damge;
+    }
+
+    public float getTotalDamage()
+    {
+        return totalDamage;
+    }
+
 }

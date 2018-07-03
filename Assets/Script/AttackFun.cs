@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mytools;
 
 public class AttackFun : MonoBehaviour
 {
@@ -42,23 +41,23 @@ public class AttackFun : MonoBehaviour
 
     public void Battle(Army mGreen, Army mRed)
     {
-       showText+= MyTools.ttt("\n\t\t\t<color="+lightColor+"__________战斗开始__________</color>\n");
+       MyTools.ins.ttt("\n\t\t\t<color="+lightColor+"__________战斗开始__________</color>\n");
         int tempTrun = 1;
         while (mGreen.isLife && mRed.isLife)
         {
-            showText += MyTools.ttt("\n\t\t\t<color="+lightColor+"__________第" + tempTrun + "回合__________</color>\n");
+            MyTools.ins.ttt("\n\t\t\t<color="+lightColor+"__________第" + tempTrun + "回合__________</color>\n");
             tempTrun++;
 
-            showText += MyTools.ttt("<color=" + mGreen.color + ">" + mGreen.name + "</color>对" + "<color=" + mRed.color + ">" + mRed.name + "</color>" + "发动普通攻击");
-            showText += MyTools.ttt("\t" + "<color=" + mRed.color + ">" + mRed.name + " </color>损失" + "<color=" + yellowColor + ">" + mGreen.Attack(mRed) + "</color>" + "兵力(" + mRed.getCount().ToString("0.0") + ")");
+            MyTools.ins.ttt("<color=" + mGreen.color + ">" + mGreen.name + "</color>对" + "<color=" + mRed.color + ">" + mRed.name + "</color>" + "发动普通攻击");
+            MyTools.ins.ttt("\t" + "<color=" + mRed.color + ">" + mRed.name + " </color>损失" + "<color=" + yellowColor + ">" + mGreen.Attack(mRed) + "</color>" + "兵力(" + mRed.getCount().ToString("0.0") + ")");
 
             if (mRed.isLife == false)
             {
                 break;
             }
 
-            showText += MyTools.ttt("<color=" + mRed.color + ">" + mRed.name + "</color>对" + "<color=" + mGreen.color + ">" + mGreen.name + "</color>" + "发动普通攻击");
-            showText += MyTools.ttt("\t" + "<color=" + mGreen.color + ">" + mGreen.name + " </color>损失" + "<color=" + yellowColor + ">" + mRed.Attack(mGreen) + "</color>" + "兵力(" + mGreen.getCount().ToString("0.0") + ")");
+            MyTools.ins.ttt("<color=" + mRed.color + ">" + mRed.name + "</color>对" + "<color=" + mGreen.color + ">" + mGreen.name + "</color>" + "发动普通攻击");
+            MyTools.ins.ttt("\t" + "<color=" + mGreen.color + ">" + mGreen.name + " </color>损失" + "<color=" + yellowColor + ">" + mRed.Attack(mGreen) + "</color>" + "兵力(" + mGreen.getCount().ToString("0.0") + ")");
 
 
         }
@@ -75,8 +74,8 @@ public class AttackFun : MonoBehaviour
         }
 
 
-        showText += MyTools.ttt("\t" + "<color=" + tempArmy.color + ">" + tempArmy.name + " </color>无法再战");
-        showText += MyTools.ttt("\n\t\t\t__________战斗结束__________");
+        MyTools.ins.ttt("\t" + "<color=" + tempArmy.color + ">" + tempArmy.name + " </color>无法再战");
+        MyTools.ins.ttt("\n\t\t\t__________战斗结束__________");
     }
 
 

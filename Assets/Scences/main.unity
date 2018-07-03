@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 216185449}
   - component: {fileID: 216185448}
   - component: {fileID: 216185447}
+  - component: {fileID: 216185451}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -194,6 +195,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &216185451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 216185446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f9d7687a6c04848a9d72a89ac53c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1264440892}
 --- !u!1 &292580828
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,10 +569,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 64f7f93c8b6002141abac7d1863f85f6, type: 3}
-    m_FontSize: 22
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 300
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -567,31 +580,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\n\t\t\t__________\u6218\u6597\u5F00\u59CB__________\n\n\n\t\t\t__________\u7B2C1\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>45.42641</color>\u5175\u529B(154.5736)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>34.76911</color>\u5175\u529B(155.2309)\n\n\t\t\t__________\u7B2C2\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>41.56265</color>\u5175\u529B(113.0109)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>30.4003</color>\u5175\u529B(124.8306)\n\n\t\t\t__________\u7B2C3\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>37.83498</color>\u5175\u529B(75.17596)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>25.71884</color>\u5175\u529B(99.11176)\n\n\t\t\t__________\u7B2C4\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>34.33697</color>\u5175\u529B(40.83899)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>20.44151</color>\u5175\u529B(78.67024)\n\n\t\t\t__________\u7B2C5\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>31.24946</color>\u5175\u529B(9.589529)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>13.64253</color>\u5175\u529B(65.02771)\n\n\t\t\t__________\u7B2C6\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>9.589529</color>\u5175\u529B(0)\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u65E0\u6CD5\u518D\u6218\n\n\t\t\t__________\u6218\u6597\u7ED3\u675F__________\n\n\t\t\t__________\u6218\u6597\u5F00\u59CB__________\n\n\n\t\t\t__________\u7B2C1\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>45.42641</color>\u5175\u529B(154.5736)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>34.76911</color>\u5175\u529B(155.2309)\n\n\t\t\t__________\u7B2C2\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>41.56265</color>\u5175\u529B(113.0109)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>30.4003</color>\u5175\u529B(124.8306)\n\n\t\t\t__________\u7B2C3\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>37.83498</color>\u5175\u529B(75.17596)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>25.71884</color>\u5175\u529B(99.11176)\n\n\t\t\t__________\u7B2C4\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>34.33697</color>\u5175\u529B(40.83899)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>20.44151</color>\u5175\u529B(78.67024)\n\n\t\t\t__________\u7B2C5\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>31.24946</color>\u5175\u529B(9.589529)\n<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#6EFF90>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>13.64253</color>\u5175\u529B(65.02771)\n\n\t\t\t__________\u7B2C6\u56DE\u5408__________\n\n<color=#6EFF90>\u3010\u519B\u58EB\u3011</color>\u5BF9<color=#FF786E>\u3010\u519B\u58EB\u3011</color>\u53D1\u52A8\u666E\u901A\u653B\u51FB\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u635F\u5931<color=#FFC700>9.589529</color>\u5175\u529B(0)\n\t<color=#FF786E>\u3010\u519B\u58EB\u3011
-    </color>\u65E0\u6CD5\u518D\u6218\n\n\t\t\t__________\u6218\u6597\u7ED3\u675F__________\n"
+  m_Text: 
 --- !u!222 &1264440893
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -810,5 +799,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6ccf9d8a3382043b5eb641c10ce442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testCount: 10000
+  testCount: 100000
   skillA: {fileID: 0}

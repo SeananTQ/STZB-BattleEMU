@@ -248,6 +248,7 @@
     <Compile Include="Assets\Script\CreateExcelData.cs" />
     <Compile Include="Assets\Script\Ctrl.cs" />
     <Compile Include="Assets\Script\ExcelReader.cs" />
+    <Compile Include="Assets\Script\GameConst.cs" />
     <Compile Include="Assets\Script\HeroData.cs" />
     <Compile Include="Assets\Script\JsonReader.cs" />
     <Compile Include="Assets\Script\MyTools.cs" />
