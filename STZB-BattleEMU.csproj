@@ -244,9 +244,10 @@
     <Compile Include="Assets\Script\Army.cs" />
     <Compile Include="Assets\Script\AttackFun.cs" />
     <Compile Include="Assets\Script\BattleEMU.cs" />
-    <Compile Include="Assets\Script\Buff.cs" />
+    <Compile Include="Assets\Script\BuffClass.cs" />
     <Compile Include="Assets\Script\CreateExcelData.cs" />
     <Compile Include="Assets\Script\Ctrl.cs" />
+    <Compile Include="Assets\Script\DotBuff.cs" />
     <Compile Include="Assets\Script\ExcelReader.cs" />
     <Compile Include="Assets\Script\GameConst.cs" />
     <Compile Include="Assets\Script\HeroData.cs" />

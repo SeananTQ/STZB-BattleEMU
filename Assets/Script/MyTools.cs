@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 
 public enum SkillState
 {
-    CAST,
+    MISS,//没有成功施放
+    INSTANT_CAST,//立即施放
     READY_1,   
-    DAMAGE,
-
+    DAMAGE,//结算伤害
+    
 }
 
 
@@ -32,7 +34,7 @@ public class MyTools : MonoBehaviour
     }
 
 
-    public void ttt(string str)
+    public void Append(string str)
     {
         if (GameConst.CanShowText() == false)
         {
@@ -40,29 +42,40 @@ public class MyTools : MonoBehaviour
         }
         showString += str + "\n";
 
+
+    }
+
+    public void Insert(string str)
+    {
+        showString = str + "\n"+ showString;
+
+
+    }
+
+    public void AllShow()
+    {
+
         text.text = showString;
+
+
     }
 
 
-
-
-    public void showSkill(Army army,Skill skill,SkillState state)
+    public void ShowSkill(Army army,Skill skill,SkillState state)
     {
 
 
 
         string temp="";
-        if (army == null)
-        {
-  
+   
             switch (state)
             {
                 case SkillState.READY_1:
-                     temp = "【军士】" + "的战法【" + skill.name + "】开始准备！";
+                     temp = "<color=" + GameConst.Color.greenColor+army.name+ "</color>的战法【" + skill.name + "】开始准备！";
                     break;
 
-                case SkillState.CAST:
-                    temp = "【军士】" + "发动【" + skill.name + "】！";
+                case SkillState.INSTANT_CAST:
+                    temp = "<color=" + GameConst.Color.greenColor + army.name + "</color>发动【" + skill.name + "】！";
                     break;
 
                 case SkillState.DAMAGE:
@@ -72,43 +85,76 @@ public class MyTools : MonoBehaviour
                  
             }
 
-        }
-        else
-        {
+        Append(temp);
+    }
 
-        }
 
-        ttt(temp);
+    public void ShowHurt(Army army,float damage)
+    {
+        string temp ="\t\t" + "<color=" + GameConst.Color.redColor  + army.name + " </color>损失" + "<color=" + GameConst.Color.yellowColor +  damage.ToString("0.0") + "</color>" + "兵力(" + army.getCount().ToString("0") + ")";
+
+        Append(temp);
     }
 
     public void BattleEnd(int num)
     {
-        string temp = "\n<color=" + GameConst.Color.lightColor + "____________________第" + num + "场战斗结束____________________</color>\n";
+        string temp = "\n<color=" + GameConst.Color.lightColor + "____________________第 " + num + " 场战斗结束____________________</color>\n";
 
-        ttt(temp);
+        Append(temp);
     }
 
     public void BattleBegin(int num)
     {
-        string temp = "\n\t\t\t<color=" + GameConst.Color.lightColor + "__________第" + num + "场战斗开始__________</color>\n";
-        ttt(temp);
+        string temp = "\n<color=" + GameConst.Color.lightColor + "############第 " + num + " 场战斗开始#############</color>\n";
+        Append(temp);
     }
 
-    public void Trun(int num)
+    public void ShowTrun(int num)
     {
-        string temp="\n\t\t\t<color=" + GameConst.Color.lightColor + "__________第" + num + "回合__________</color>";
+        string temp="\n\t\t\t<color=" + GameConst.Color.lightColor + "__________第 " + num + " 回合__________</color>";
 
-        ttt(temp);
+        Append(temp);
+    }
+
+    public void ShowSkillAverageDamage(Army army,float testCount, Skill skill,float averageDamage)
+    {
+
+        string temp = "" + "<color=" + GameConst.Color.greenColor + army.name + " </color>的技能【" + skill.name + "】平均施放了"+ "<color=" + GameConst.Color.yellowColor + (skill.totalCastCount/testCount).ToString("0.00")+"</color>次，平均造成了" + "<color=" + GameConst.Color.yellowColor + (averageDamage/ testCount).ToString("0.00") + "</color>点伤害";
+
+        Insert(temp);
+
+        //new System.Text.RegularExpressions.Regex("<color=*>").Replace(temp,"");
+
+        System.Text.RegularExpressions.Regex aa = new System.Text.RegularExpressions.Regex("c.r");
+        string str2 = aa.Replace(temp, "");
+
+        //string input = "1851 1999 1950 1905 2003";
+        //string pattern = @"(?<=19)\d{2}\b";
+
+        //Regex.re
+
+        //foreach (Match match in Regex.Matches(input, pattern))
+        //    ppp(match.Value);
+
+        ppp(str2);
     }
 
 
     public static void ppp(string str)
-    {
+    { 
 
         print(">>> " + str);
     }
 
 
+    public float getRandom(float min,float max)
+    {
+        float rand = Random.Range(min, max+1);
+
+
+        return rand;
+    }
+     
 }
 
 

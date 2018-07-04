@@ -782,12 +782,16 @@ MonoBehaviour:
     def: 145.5
     count: 100
     color: 
+    buffList: []
+    skillList: []
   red:
     name: "\u5E9E\u5FB7"
     atk: 107.8
     def: 137.5
     count: 100
     color: 
+    buffList: []
+    skillList: []
 --- !u!114 &1622322925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -799,5 +803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6ccf9d8a3382043b5eb641c10ce442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testCount: 100000
+  testCount: 1000
   skillA: {fileID: 0}
+  enemyArmiesList: []
+  ourArmiesList: []
