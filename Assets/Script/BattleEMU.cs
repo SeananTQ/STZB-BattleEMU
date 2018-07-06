@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleEMU : MonoBehaviour
 {
-    public int testCount=100;
+    public int testCount = 100;
 
     public Skill skillA;
 
@@ -13,7 +13,7 @@ public class BattleEMU : MonoBehaviour
 
     public List<Army> ourArmiesList;
 
-    
+
 
     int castCount = 0;
     // Use this for initialization
@@ -28,8 +28,8 @@ public class BattleEMU : MonoBehaviour
 
         ourArmiesList = new List<Army>();
 
-        Army me=new Army("我", 50, 50, 10000);
-        me.AddSkill(ChooseSkill(""));//给部队增加一个技能
+        Army me = new Army("主角", 50, 50, 10000);
+        me.AddSkill(ChooseSkill(me,""));//给部队增加一个技能
 
         ourArmiesList.Add(me);
 
@@ -37,19 +37,24 @@ public class BattleEMU : MonoBehaviour
         TestModel(testCount);
 
         MyTools.ins.AllShow();
-      //  Battle();
+        //  Battle();
     }
 
-    private Skill ChooseSkill(string name)
+    private Skill ChooseSkill(Army army,string name)
     {
-        Skill tempSkll=
-        new Skill("声东击西", 50f, 1, 12, 231);
+        Skill tempSkll;
+        DotBuff dotBuff;
+        //new Skill("声东击西", 50f, 1, 12, 231);
         //skillA = new Skill("水淹七军", 50f, 1, 22, 205);
         // skillA = new Skill("溃堤", 45f, 0, 22, 79.8f);
         //skillA = new Skill("危崖困军", 50f, 1, 22, 210);
         //skillA = new Skill("长坂之吼", 75f, 2, 22, 450);
         //skillA = new Skill("驱虎吞狼", 30f, 0, 33, 143);
         //skillA = new Skill("玄武巨流", 30f, 1, 33, 150);
+        tempSkll = new Skill(army,"焰焚箕轸",SkillType.ACTIVE, 50f, 1, 23, 119);
+         dotBuff = new DotBuff(tempSkll, "燃烧",SwitchRule.SWITCH, 1, 100, 119,TargetType.ENEMY);
+
+        tempSkll.AddBuff(dotBuff);
 
         return tempSkll;
     }
@@ -58,7 +63,7 @@ public class BattleEMU : MonoBehaviour
     public void TestModel(int testCount)
     {
 
-        for (int i=0; i < testCount; i++)
+        for (int i = 0; i < testCount; i++)
         {
             MyTools.ins.BattleBegin(i + 1);
 
@@ -66,7 +71,7 @@ public class BattleEMU : MonoBehaviour
             ArmyFight(ourArmiesList, enemyArmiesList);
 
 
-            MyTools.ins.BattleEnd(i+ 1);
+            MyTools.ins.BattleEnd(i + 1);
             GameConst.curShowTextConut = i + 1;
         }
 
@@ -78,12 +83,12 @@ public class BattleEMU : MonoBehaviour
     {
         for (int i = 0; i < ourArmiesList.Count; i++)
         {
-            ourArmiesList[i].SummaryData(enemyArmiesList,testCount);
+            ourArmiesList[i].SummaryData(enemyArmiesList, testCount);
         }
 
     }
 
-
+    //一场战斗
     public void ArmyFight(List<Army> ourList, List<Army> enemyList)
     {
         //重置战前状态
@@ -104,11 +109,17 @@ public class BattleEMU : MonoBehaviour
         }
     }
 
+    //一回合战斗
     private void OneTrunFight(List<Army> attackerList, List<Army> defenderList)
     {
-        for (int i=0; i < attackerList.Count; i++)
+        for (int i = 0; i < attackerList.Count; i++)
         {
-             attackerList[i].Action(defenderList);
+            attackerList[i].Action(defenderList);
+        }
+
+        for (int i = 0; i < defenderList.Count; i++)
+        {
+            defenderList[i].Action(attackerList);
         }
     }
 
@@ -122,7 +133,7 @@ public class BattleEMU : MonoBehaviour
     //    {
     //        MyTools.ins.BattleBegin(k+1);
     //        GameConst.curShowTextConut=k+1;
-         
+
 
     //        for (int i = 0; i < 8; i++)
     //        {

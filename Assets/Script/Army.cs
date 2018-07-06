@@ -13,7 +13,7 @@ public class Army
     public float count;
     public string color;
 
-    public List<BuffClass> buffList;
+    public List<BuffClass> buffQueue;
 
     public List<Skill> skillList;
 
@@ -30,7 +30,7 @@ public class Army
         this.def = def;
         this.count = count;
 
-        buffList = new List<BuffClass>();
+        buffQueue = new List<BuffClass>();
         skillList = new List<Skill>();
         hurtEventList = new List<HurtEvent>();
 }
@@ -89,12 +89,30 @@ public class Army
     public string Action(List<Army> enemyList)
     {
         //轮到本部队行动
-        
 
 
         //首先结算自身的BUFF
-        ///略
-        //然后判断自身是否可以行动
+        for (int i = 0; i < buffQueue.Count; i++)
+        {
+            DotBuff temp = (DotBuff)buffQueue[i];
+
+            //MyTools.ppp(temp.effectName);
+
+            if (temp.DoEffect(this) == false)
+            {
+                MyTools.ins.ShowRemoveBuff(this, temp);
+                buffQueue.Remove(temp);   
+                temp = null;
+
+            }
+            // buffQueue[i].DoEffect(this);
+
+        }
+
+
+
+
+        //然后判断自身是否可以行动，死没晕没
 
         //然后按照顺序触发主动技能
         for (int i = 0; i < skillList.Count; i++)
@@ -123,6 +141,8 @@ public class Army
 
 
 
+
+
         return null;
     }
 
@@ -133,7 +153,7 @@ public class Army
         //这里本应该计算自身免伤，该版本忽略TODO
         float inDamage = skill.getDamage() * 1f;
         //记录受到的伤害
-        this.curHurtDamage = inDamage;
+        this.curHurtDamage += inDamage;
         totalhurtDamage += curHurtDamage;
         count = Mathf.Max(0, count - inDamage);
             
@@ -142,6 +162,61 @@ public class Army
 
         hurtEventList.Add(hurtEvent);
         MyTools.ins.ShowHurt(this, inDamage);
+
+    }
+
+
+    //Dot伤害
+    public void Hurt(DotBuff buff)
+    {
+        //这里本应该计算自身免伤，该版本忽略TODO
+        float inDamage = buff.getDamage() * 1f;
+        //记录受到的伤害
+        this.curHurtDamage += inDamage;
+        totalhurtDamage += curHurtDamage;
+        count = Mathf.Max(0, count - inDamage);
+
+
+       // HurtEvent hurtEvent = new HurtEvent(attacker.name, skill.name, inDamage);
+
+      //  hurtEventList.Add(hurtEvent);
+        MyTools.ins.ShowDotHurt(buff.skill.army, buff);
+
+    }
+    //中buff
+    public void HitBuff(BuffClass buff)
+    {
+        var tempBuff = buffQueue.Find(n => n.effectName.Equals(buff.effectName));
+        if(tempBuff!=null)
+        {
+            switch (buff.switchRule)
+            {
+                case SwitchRule.NOT:
+
+                    break;
+
+                case SwitchRule.RESET:
+                    tempBuff.ResetRound();
+                    break;
+                case SwitchRule.SWITCH:
+
+                    if (buff.switchWeight >= tempBuff.switchWeight)
+                    {
+                        buffQueue.Remove(tempBuff);
+                        buffQueue.Add(buff);
+                    }
+                    else
+                    {
+                        //存在一个更强大的BUFF
+
+                    }
+                    break;
+
+
+            }
+        }
+        buffQueue.Add(buff);
+        MyTools.ins.ShowHitBuff(this, buff);
 
     }
 

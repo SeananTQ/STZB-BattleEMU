@@ -3,7 +3,7 @@
 public static class GameConst
 {
     public static int curShowTextConut=0;
-    public static int maxShowTextConut = 5;
+    public static int maxShowTextConut = 2;
 
     public static bool CanShowText()
     {
@@ -28,4 +28,37 @@ public static class GameConst
     }
 
 
+
+}
+
+
+public enum BuffType
+{
+    BUFF,
+    DOT,
+    HOT,
+}
+
+public enum TargetType
+{
+    SELF,//仅对自己
+    ENEMY,//敌人
+    FRIEND,//我方其他角色
+    OUR,//我方任意角色
+}
+
+public enum SwitchRule
+{
+    NOT,//无法替换
+    RESET,//刷新
+    SWITCH,//顶替
+}
+
+
+public enum SkillType
+{
+    PASSIVE,
+    HALO,
+    ACTIVE,
+    COMBO,
 }

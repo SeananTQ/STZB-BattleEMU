@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class Skill : MonoBehaviour
+public class Skill 
 {
 
     public string name;
@@ -23,14 +24,8 @@ public class Skill : MonoBehaviour
 
     public List<BuffClass> buffList;
 
-
-    public Skill(string name, float castRate, int readyTime)
-    {
-        this.name = name;
-        this.castRate = castRate;
-        this.readyTime = readyTime;
-    }
-
+    public Army army;
+    public SkillType skillType;
     
     /// <summary>
     /// 技能构造函数
@@ -40,7 +35,7 @@ public class Skill : MonoBehaviour
     /// <param name="readyTime">准备回合数</param>
     /// <param name="targetCount">可攻击目标数量，十位为下限，个位为上限</param>
     /// <param name="damage">技能伤害率</param>
-    public Skill(string name, float castRate, int readyTime, int targetCount, float damage)
+    public Skill(Army army,string name,SkillType skillType, float castRate, int readyTime, int targetCount, float damage)
     {
         this.name = name;
         this.castRate = castRate;
@@ -48,7 +43,8 @@ public class Skill : MonoBehaviour
         this.targetLowerCount = targetCount / 10;
         this.targetUpperCount = targetCount % 10;
         this.damageRate = damage;
-
+        this.army = army;
+        this.skillType = skillType;
         buffList = new List<BuffClass>();
     }
 
@@ -61,6 +57,11 @@ public class Skill : MonoBehaviour
 
     public void AddBuff(BuffClass buff)
     {
+        if (buff == null)
+        {
+           MyTools.ppp("加进来就是空的");
+        }
+
         buffList.Add(buff);
 
     }
@@ -97,28 +98,32 @@ public class Skill : MonoBehaviour
     {
         MyTools.ins.ShowSkill(selfArmy, this, SkillState.INSTANT_CAST);
 
+        //这里应当判断对自身生效的BUFF TODO
+
         //先随机能够攻击的目标数量
         curTrunTargetCount = RandTargetCount();
         //这里应当判断攻击距离TODO
 
-
+        List<Army> tempEnemyList = new List<Army>();
 
         //然后判断该技能攻击目标的数量，3全打，1、2随机
         switch (curTrunTargetCount)
         {
-
             case 3:
                 for (int i = 0; i < enemyList.Count; i++)
                 {
                     enemyList[i].Hurt(selfArmy, this);
+
+                    tempEnemyList.Add(enemyList[i]);
+      
                 }
 
-                //此处应该还有判断DOT挂载，先省略
                 break;
 
             case 1:
                 int tempR=(int) MyTools.ins.getRandom(0, 2);
                 enemyList[tempR].Hurt(selfArmy, this);
+                tempEnemyList.Add(enemyList[tempR]);
                 break;
             case 2:
                 int tempR2 = (int)MyTools.ins.getRandom(0, 2);
@@ -128,10 +133,33 @@ public class Skill : MonoBehaviour
                     {
                         continue;
                     }
+
+
                     enemyList[i].Hurt(selfArmy, this);
+                    tempEnemyList.Add(enemyList[i]);
+
+
                 }
 
-                break; 
+                break;
+        }
+
+        for (int i = 0; i < tempEnemyList.Count; i++)
+        {
+            //对受击目标施加BUFF
+            for (int k = 0; k < buffList.Count; k++)
+            {
+                var tempBuff = buffList[k];
+
+                switch (tempBuff.targetType)
+                {
+                    case TargetType.ENEMY:
+                        //   enemyList[i].HitBuff(buffList[k].Clone());// 克隆一个新的BUFF给敌人
+                        enemyList[i].HitBuff(buffList[k]);// 克隆一个新的BUFF给敌人
+                        break;
+
+                }
+            }
         }
 
 
