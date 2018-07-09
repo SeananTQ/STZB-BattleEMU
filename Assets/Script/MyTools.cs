@@ -9,9 +9,9 @@ public enum SkillState
 {
     MISS,//没有成功施放
     INSTANT_CAST,//立即施放
-    READY_1,   
+    READY_1,
     DAMAGE,//结算伤害
-    
+
 }
 
 
@@ -71,7 +71,7 @@ public class MyTools : MonoBehaviour
         switch (state)
         {
             case SkillState.READY_1:
-                temp = "<color=" + GameConst.Color.greenColor+"【" + army.name + "】</color>的战法【" + skill.name + "】开始准备！";
+                temp = "<color=" + GameConst.Color.greenColor + "【" + army.name + "】</color>的战法【" + skill.name + "】开始准备！";
                 break;
 
             case SkillState.INSTANT_CAST:
@@ -91,25 +91,25 @@ public class MyTools : MonoBehaviour
 
     public void ShowHurt(Army army, float damage)
     {
-        string temp = "\t\t" + "<color=" + GameConst.Color.redColor +"【"+ army.name + "】</color>损失了" + "<color=" + GameConst.Color.yellowColor + damage.ToString("0.0") + "</color>" + "兵力 (" + army.getCount().ToString("0") + ")";
+        string temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>损失了" + "<color=" + GameConst.Color.yellowColor + damage.ToString("0.0") + "</color>" + "兵力 (" + army.getCount().ToString("0") + ")";
 
         Append(temp);
     }
 
-    public void ShowDotHurt(Army attacker, DotBuff buff)
+    public void ShowDotHurt(Army defender, DotBuff buff)
     {
-        string temp = "\t\t" + "<color=" + GameConst.Color.redColor+"【" + buff.skill.army.name + "】 </color>由于"+ attacker.name+ "【"+buff.skill.name + "】施加的"+buff.effectName+"效果损失了<color=" + GameConst.Color.yellowColor + buff.dotDamage.ToString("0.0") + "</color>" + "兵力 (" + attacker.getCount().ToString("0") + ")";
+        string temp = "" + "<color=" + GameConst.Color.redColor + "【"  +defender.name + "】 </color>由于"+buff.skill.army.name + "【" + buff.skill.name + "】施加的" + buff.effectName + "效果损失了<color=" + GameConst.Color.yellowColor + buff.dotDamage.ToString("0.0") + "</color>" + "兵力 (" + defender.getCount().ToString("0") + ")";
         Append(temp);
     }
 
-    public void ShowHitBuff(Army army,BuffClass buff)
+    public void ShowHitBuff(Army army, BuffClass buff)
     {
-        string temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>的" + "<color=" + GameConst.Color.yellowColor +buff.effectName + "</color>" + "效果已施加 (来自 " + buff.skill.name + " )";
+        string temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>的" + "<color=" + GameConst.Color.yellowColor + buff.effectName + "</color>" + "效果已施加 (来自 " + buff.skill.name + " )";
 
         Append(temp);
     }
 
-    public void ShowRemoveBuff(Army army, DotBuff buff)
+    public void ShowRemoveBuff(Army army, BuffClass buff)
     {
         //已存在同等或更强恐惧效果
 
@@ -117,8 +117,17 @@ public class MyTools : MonoBehaviour
 
         //金环三阶的来自李儒【逆反毒杀】的恐慌效果消失了
 
+        string temp="";
 
-        string temp = "" + "<color=" + GameConst.Color.redColor+"【" + army.name + "】 </color>的来自" + "<color=" + GameConst.Color.greenColor + buff.skill.army.name + "</color>【" +buff.skill.name+ "】的"+buff.effectName+"效果消失了";
+        switch (buff.buffType)
+        {
+            case BuffType.DOT:
+
+                 temp = "" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】 </color>的来自" + "<color=" + GameConst.Color.greenColor + buff.skill.army.name + "</color>【" + buff.skill.name + "】的" + buff.effectName + "效果消失了";
+
+                break;
+
+        }
 
         Append(temp);
     }
@@ -177,7 +186,7 @@ public class MyTools : MonoBehaviour
         return rand;
     }
 
-     
+
 }
 
 

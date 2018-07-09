@@ -25,17 +25,34 @@ public class DotBuff : BuffClass
     {
         this.skill = skill;
         this.maxRound = maxRound;
-        this.currentRound = 0;
+        this.currentRound = this.maxRound;
         this.dotRate = dotRate;
         this.dotDamage = dotDamage;
         this.effectName = name;
         this.targetType = target;
         this.switchRule = switchRule;
-
+        
         this.switchWeight = getDamage();
 
         this.buffType = BuffType.DOT;
     }
+
+    public DotBuff(DotBuff seed)
+    {
+        this.skill = seed.skill;
+        this.maxRound = seed.maxRound;
+        this.currentRound = this.maxRound;
+        this.dotRate = seed.dotRate;
+        this.dotDamage = seed.dotDamage;
+        this.effectName = seed.effectName;
+        this.targetType = seed.targetType;
+        this.switchRule = seed.switchRule;
+
+        this.switchWeight = getDamage();
+
+        this.buffType = seed.buffType;
+    }
+
 
     protected override void DoDot(Army army)
     {
@@ -47,15 +64,15 @@ public class DotBuff : BuffClass
 
     }
 
-    //public override BuffClass Clone()
-    //{
-    //    //int tempCurrentRound = 0;
-    //    DotBuff temp = new DotBuff(this.skill,this.effectName,this.maxRound,  this.dotRate,this.dotDamage,this.targetType);
-    //    temp.currentRound = 0;
+    public override BuffClass Clone()
+    {
+        //int tempCurrentRound = 0;
+        //(Skill skill, string name,SwitchRule switchRule, int maxRound, float dotRate, float dotDamage, TargetType target)
+        DotBuff temp = new DotBuff(this);
 
-    //    MyTools.ppp(temp.ToString());
-    //    return temp;
-    //}
+      //  MyTools.ppp(temp.ToString());
+        return temp;
+    }
 
 
 }

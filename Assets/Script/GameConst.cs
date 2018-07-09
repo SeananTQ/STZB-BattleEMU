@@ -3,7 +3,7 @@
 public static class GameConst
 {
     public static int curShowTextConut=0;
-    public static int maxShowTextConut = 2;
+    public static int maxShowTextConut = 5;
 
     public static bool CanShowText()
     {

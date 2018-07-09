@@ -134,11 +134,8 @@ public class Skill
                         continue;
                     }
 
-
                     enemyList[i].Hurt(selfArmy, this);
                     tempEnemyList.Add(enemyList[i]);
-
-
                 }
 
                 break;
@@ -154,8 +151,8 @@ public class Skill
                 switch (tempBuff.targetType)
                 {
                     case TargetType.ENEMY:
-                        //   enemyList[i].HitBuff(buffList[k].Clone());// 克隆一个新的BUFF给敌人
-                        enemyList[i].HitBuff(buffList[k]);// 克隆一个新的BUFF给敌人
+                        tempEnemyList[i].HitBuff(buffList[k].Clone());// 克隆一个新的BUFF给敌人
+                      //  enemyList[i].HitBuff(buffList[k]);// 克隆一个新的BUFF给敌人
                         break;
 
                 }

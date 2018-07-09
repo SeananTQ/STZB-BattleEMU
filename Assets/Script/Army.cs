@@ -91,25 +91,30 @@ public class Army
         //轮到本部队行动
 
 
+        List<BuffClass> removeList = new List<BuffClass>();
         //首先结算自身的BUFF
         for (int i = 0; i < buffQueue.Count; i++)
         {
-            DotBuff temp = (DotBuff)buffQueue[i];
+            BuffClass temp =buffQueue[i];
 
             //MyTools.ppp(temp.effectName);
 
             if (temp.DoEffect(this) == false)
             {
-                MyTools.ins.ShowRemoveBuff(this, temp);
-                buffQueue.Remove(temp);   
-                temp = null;
-
-            }
-            // buffQueue[i].DoEffect(this);
+                removeList.Add(temp);//标记删除
+                //   buffQueue.Remove(temp);   
+            } 
 
         }
 
-
+        for (int i = removeList.Count-1; i >= 0; i--)
+        {
+            var tempBuff = removeList[i];
+            MyTools.ins.ShowRemoveBuff(this, tempBuff);
+            buffQueue.Remove(tempBuff);
+            tempBuff = null;
+        }
+        removeList.Clear();
 
 
         //然后判断自身是否可以行动，死没晕没
@@ -177,10 +182,10 @@ public class Army
         count = Mathf.Max(0, count - inDamage);
 
 
-       // HurtEvent hurtEvent = new HurtEvent(attacker.name, skill.name, inDamage);
+        HurtEvent hurtEvent = new HurtEvent(buff.skill.army.name, buff.skill.name, inDamage);
 
-      //  hurtEventList.Add(hurtEvent);
-        MyTools.ins.ShowDotHurt(buff.skill.army, buff);
+        hurtEventList.Add(hurtEvent);
+        MyTools.ins.ShowDotHurt(this, buff);
 
     }
     //中buff
