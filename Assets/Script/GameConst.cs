@@ -3,11 +3,11 @@
 public static class GameConst
 {
     public static int curShowTextConut=0;
-    public static int maxShowTextConut = 5;
+    public static int maxShowPageConut = 15;
 
     public static bool CanShowText()
     {
-        if (curShowTextConut < maxShowTextConut)
+        if (curShowTextConut < maxShowPageConut)
         {
             return true;
         }

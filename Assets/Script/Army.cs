@@ -10,7 +10,8 @@ public class Army
     public string name;
     public float atk;
     public float def;
-    public float count;
+    public float curTroops;
+    public float maxTroops;
     public string color;
 
     public List<BuffClass> buffQueue;
@@ -28,7 +29,8 @@ public class Army
         this.name =  name ;
         this.atk = atk;
         this.def = def;
-        this.count = count;
+        this.maxTroops = count;
+        this.curTroops = maxTroops;
 
         buffQueue = new List<BuffClass>();
         skillList = new List<Skill>();
@@ -40,8 +42,12 @@ public class Army
         foreach (Skill temp in skillList)
         {
             temp.ResetData();
-        }      
-
+        }
+        
+        //清空身上挂的BUFF
+        buffQueue = new List<BuffClass>();
+        //恢复兵力
+        this.curTroops = maxTroops;
     }
 
 
@@ -52,7 +58,7 @@ public class Army
         get
         {
 
-            if (count < 1)
+            if (curTroops < 1)
 
                 return false;
             else
@@ -80,7 +86,7 @@ public class Army
 
     public string Attack(Army bbb)
     {
-        float tempDamage = getAttackDamage(this.atk, bbb.def, this.count, 1f);
+        float tempDamage = getAttackDamage(this.atk, bbb.def, this.curTroops, 1f);
 
 
         return bbb.Hurt(tempDamage).ToString("0.0");
@@ -102,7 +108,6 @@ public class Army
             if (temp.DoEffect(this) == false)
             {
                 removeList.Add(temp);//标记删除
-                //   buffQueue.Remove(temp);   
             } 
 
         }
@@ -124,28 +129,11 @@ public class Army
         {
             skillList[i].IsCast(this,enemyList);
 
-
-
-
-            //先判断我方部队是否可以发动技能
-            //skillList[i].CanCast();
-            //如果可以发动技能，再随机这个技能可以打几个目标
-            //skillList[i].getTargetCount();
-            //对每个敌方目标发动技能，同时判定是否能够触发BUFF
-            //for()...
-            //skillList[i].attack()
-            //正常该敌方行动了，测试中敌方不行动
-            //结算DOT伤害
-
-
         }
 
 
         //然后进行普攻
         //然后触发追击技能
-
-
-
 
 
         return null;
@@ -160,7 +148,7 @@ public class Army
         //记录受到的伤害
         this.curHurtDamage += inDamage;
         totalhurtDamage += curHurtDamage;
-        count = Mathf.Max(0, count - inDamage);
+        curTroops = Mathf.Max(0, curTroops - inDamage);
             
 
         HurtEvent hurtEvent = new HurtEvent(attacker.name, skill.name, inDamage);
@@ -179,7 +167,7 @@ public class Army
         //记录受到的伤害
         this.curHurtDamage += inDamage;
         totalhurtDamage += curHurtDamage;
-        count = Mathf.Max(0, count - inDamage);
+        curTroops = Mathf.Max(0, curTroops - inDamage);
 
 
         HurtEvent hurtEvent = new HurtEvent(buff.skill.army.name, buff.skill.name, inDamage);
@@ -192,8 +180,10 @@ public class Army
     public void HitBuff(BuffClass buff)
     {
         var tempBuff = buffQueue.Find(n => n.effectName.Equals(buff.effectName));
-        if(tempBuff!=null)
+        if (tempBuff != null)
         {
+            //找到一个相同效果的BUFF，然后来判断替换规则
+
             switch (buff.switchRule)
             {
                 case SwitchRule.NOT:
@@ -209,19 +199,26 @@ public class Army
                     {
                         buffQueue.Remove(tempBuff);
                         buffQueue.Add(buff);
+                        MyTools.ins.ShowHitBuff(this, buff,2);
                     }
                     else
                     {
                         //存在一个更强大的BUFF
-
+                        MyTools.ins.ShowHitBuff(this, buff,0);
                     }
                     break;
 
 
             }
         }
-        buffQueue.Add(buff);
-        MyTools.ins.ShowHitBuff(this, buff);
+        else
+        {
+            //未找到则直接追加
+            buffQueue.Add(buff);
+            MyTools.ins.ShowHitBuff(this, buff,1);
+        }
+
+
 
     }
 
@@ -231,16 +228,16 @@ public class Army
     public float Hurt(float damage)
     {
 
-        float tempCount = count;
+        float tempCount = curTroops;
 
         // damage =    (float)  Math.Round(Convert.ToDouble(damage), MidpointRounding.AwayFromZero);
 
 
 
-        count -= damage;
-        count = Mathf.Max(0, count);
+        curTroops -= damage;
+        curTroops = Mathf.Max(0, curTroops);
 
-        if (count > 0)
+        if (curTroops > 0)
         {
             return damage;
         }
@@ -252,7 +249,7 @@ public class Army
     {
         //  Debug.Log(count+"     "+Mathf.Round(count));
         //return Mathf.Round(count);
-        return count;
+        return curTroops;
     }
 
     public void AddSkill(Skill skill)

@@ -112,7 +112,11 @@ public class Skill
             case 3:
                 for (int i = 0; i < enemyList.Count; i++)
                 {
-                    enemyList[i].Hurt(selfArmy, this);
+                    if (this.damageRate > Mathf.Epsilon)//判断仅能是否有直接伤害，有些毒技能没有直接伤害
+                    {
+                        enemyList[i].Hurt(selfArmy, this);
+                    }
+       
 
                     tempEnemyList.Add(enemyList[i]);
       
@@ -122,11 +126,14 @@ public class Skill
 
             case 1:
                 int tempR=(int) MyTools.ins.getRandom(0, 2);
-                enemyList[tempR].Hurt(selfArmy, this);
+                if (this.damageRate > Mathf.Epsilon)//判断仅能是否有直接伤害，有些毒技能没有直接伤害
+                {
+                    enemyList[tempR].Hurt(selfArmy, this);
+                }
                 tempEnemyList.Add(enemyList[tempR]);
                 break;
             case 2:
-                int tempR2 = (int)MyTools.ins.getRandom(0, 2);
+                int tempR2 = (int)MyTools.ins.getRandom(0, 2);//随机打2个目标的技能，其实只需要随机1个未被打中的即可
                 for (int i = 0; i < enemyList.Count; i++)
                 {
                     if (i == tempR2)
@@ -134,7 +141,10 @@ public class Skill
                         continue;
                     }
 
-                    enemyList[i].Hurt(selfArmy, this);
+                    if (this.damageRate > Mathf.Epsilon)//判断仅能是否有直接伤害，有些毒技能没有直接伤害
+                    {
+                        enemyList[i].Hurt(selfArmy, this);
+                    }
                     tempEnemyList.Add(enemyList[i]);
                 }
 

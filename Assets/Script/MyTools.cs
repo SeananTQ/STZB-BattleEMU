@@ -18,14 +18,19 @@ public enum SkillState
 public class MyTools : MonoBehaviour
 {
     public static MyTools ins { get; set; }
+    public static int currentShowIndex = 0;
 
     public Text text;
 
-    private string showString = "";
+    private string showString;
+    private List<string> showStringList;
+
+
 
     private void Awake()
     {
         ins = this;
+        showStringList = new List<string>();
     }
 
     private void Update()
@@ -36,10 +41,7 @@ public class MyTools : MonoBehaviour
 
     public void Append(string str)
     {
-        if (GameConst.CanShowText() == false)
-        {
-            return;
-        }
+
         showString += str + "\n";
 
 
@@ -47,23 +49,63 @@ public class MyTools : MonoBehaviour
 
     public void Insert(string str)
     {
-        showString = str + "\n" + showString;
-
-
+        showStringList[0] = str + "\n" + showStringList[0];
     }
+
+    public void NextBattle()
+    {
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
+
+        showStringList.Add(showString);
+        GameConst.curShowTextConut = showStringList.Count;
+        showString = null;
+    }
+
 
     public void AllShow()
     {
+        //text.text = showString.Substring(0,Mathf.Min(16383,showString.Length));
 
-        text.text = showString;
+        if (currentShowIndex > showStringList.Count - 1)
+        {
+            currentShowIndex = showStringList.Count - 1;
+        }
 
+        text.text = showStringList[currentShowIndex];
+    }
 
+    public void NextIndex()
+    {
+        currentShowIndex++;
+        AllShow();
+    }
+
+    public void LastIndex()
+    {
+        currentShowIndex--;
+        if (currentShowIndex < 0)
+        {
+            currentShowIndex = 0;
+        }
+        AllShow();
+    }
+
+    public void FirstIndex()
+    {
+        currentShowIndex = 0;
+        AllShow();
     }
 
 
     public void ShowSkill(Army army, Skill skill, SkillState state)
     {
-
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
 
 
         string temp = "";
@@ -91,6 +133,11 @@ public class MyTools : MonoBehaviour
 
     public void ShowHurt(Army army, float damage)
     {
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
+
         string temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>损失了" + "<color=" + GameConst.Color.yellowColor + damage.ToString("0.0") + "</color>" + "兵力 (" + army.getCount().ToString("0") + ")";
 
         Append(temp);
@@ -98,32 +145,57 @@ public class MyTools : MonoBehaviour
 
     public void ShowDotHurt(Army defender, DotBuff buff)
     {
-        string temp = "" + "<color=" + GameConst.Color.redColor + "【"  +defender.name + "】 </color>由于"+buff.skill.army.name + "【" + buff.skill.name + "】施加的" + buff.effectName + "效果损失了<color=" + GameConst.Color.yellowColor + buff.dotDamage.ToString("0.0") + "</color>" + "兵力 (" + defender.getCount().ToString("0") + ")";
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
+        string temp = "" + "<color=" + GameConst.Color.redColor + "【" + defender.name + "】 </color>由于" + buff.skill.army.name +
+            "【" + buff.skill.name + "】施加的" + buff.effectName + "效果损失了<color=" + GameConst.Color.yellowColor + buff.dotDamage.ToString("0.0") +
+            "</color>" + "兵力 (" + defender.getCount().ToString("0") + ") [剩" + buff.currentRound + "回合]";
         Append(temp);
     }
 
-    public void ShowHitBuff(Army army, BuffClass buff)
+    public void ShowHitBuff(Army army, BuffClass buff, int type)
     {
-        string temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>的" + "<color=" + GameConst.Color.yellowColor + buff.effectName + "</color>" + "效果已施加 (来自 " + buff.skill.name + " )";
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
+        string temp = "";
+        switch (type)
+        {
+            case 1:
+                temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>的" + "<color=" + GameConst.Color.yellowColor +
+                        buff.effectName + "</color>" + "效果已施加 (来自 " + buff.skill.name + " )";
+                break;
+            case 2:
+                temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>的" + "<color=" + GameConst.Color.yellowColor +
+                        buff.effectName + "</color>" + "效果被刷新了！ (来自 " + buff.skill.name + " )";
+                break;
+            case 3:
+
+                break;
+        }
+
+
 
         Append(temp);
     }
 
     public void ShowRemoveBuff(Army army, BuffClass buff)
     {
-        //已存在同等或更强恐惧效果
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
 
-        //陪袁少的将对陪袁少没有生效
-
-        //金环三阶的来自李儒【逆反毒杀】的恐慌效果消失了
-
-        string temp="";
+        string temp = "";
 
         switch (buff.buffType)
         {
             case BuffType.DOT:
 
-                 temp = "" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】 </color>的来自" + "<color=" + GameConst.Color.greenColor + buff.skill.army.name + "</color>【" + buff.skill.name + "】的" + buff.effectName + "效果消失了";
+                temp = "" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】 </color>的来自" + "<color=" + GameConst.Color.greenColor + buff.skill.army.name + "</color>【" + buff.skill.name + "】的" + buff.effectName + "效果消失了";
 
                 break;
 
@@ -135,6 +207,10 @@ public class MyTools : MonoBehaviour
 
     public void BattleEnd(int num)
     {
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
         string temp = "\n<color=" + GameConst.Color.lightColor + "____________________第 " + num + " 场战斗结束____________________</color>\n";
 
         Append(temp);
@@ -142,12 +218,20 @@ public class MyTools : MonoBehaviour
 
     public void BattleBegin(int num)
     {
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
         string temp = "\n<color=" + GameConst.Color.lightColor + "############第 " + num + " 场战斗开始#############</color>\n";
         Append(temp);
     }
 
     public void ShowTrun(int num)
     {
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
         string temp = "\n\t\t\t<color=" + GameConst.Color.lightColor + "__________第 " + num + " 回合__________</color>";
 
         Append(temp);

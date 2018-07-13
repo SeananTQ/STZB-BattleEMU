@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STZB-BattleEMU", "STZB-BattleEMU.csproj", "{6E3C6198-77F3-5108-7DBC-9C380130D89A}"
 EndProject
 Global
