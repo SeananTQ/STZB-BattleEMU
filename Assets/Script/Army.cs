@@ -195,7 +195,7 @@ public class Army
                     break;
                 case SwitchRule.SWITCH:
 
-                    if (buff.switchWeight >= tempBuff.switchWeight)
+                    if (buff.switchWeight > tempBuff.switchWeight)
                     {
                         buffQueue.Remove(tempBuff);
                         buffQueue.Add(buff);

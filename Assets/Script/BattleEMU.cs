@@ -29,7 +29,7 @@ public class BattleEMU : MonoBehaviour
         ourArmiesList = new List<Army>();
 
         Army me = new Army("主角 ", 50, 50, 10000);
-        me.AddSkill(ChooseSkill(me, "楚歌四起"));//给部队增加一个技能
+        me.AddSkill(ChooseSkill(me, "驱虎吞狼"));//给部队增加一个技能
 
         ourArmiesList.Add(me);
 
@@ -45,7 +45,7 @@ public class BattleEMU : MonoBehaviour
         Skill tempSkll=null;
         DotBuff dotBuff=null;
 
-        string[] skillNameArray = {"声东击西","水淹七军","溃堤","危崖困军","长坂之吼","驱虎吞狼","玄武巨流","焰焚箕轸","楚歌四起" };
+        string[] skillNameArray = {"声东击西","水淹七军","溃堤","危崖困军","长坂之吼","驱虎吞狼","玄武巨流","焰焚箕轸","楚歌四起","黄天当立","逆反毒杀", "复誓业火" };
         int index = 0;
         for (int i = 0; i < skillNameArray.Length; i++)
         {
@@ -61,6 +61,12 @@ public class BattleEMU : MonoBehaviour
               //  tempSkll= new Skill("声东击西", 50f, 1, 12, 231);
                 break;
 
+            case 5:
+                tempSkll = new Skill(army, "驱虎吞狼", SkillType.ACTIVE, 30f, 0, 33, 143);
+                dotBuff = new DotBuff(tempSkll, "围困", SwitchRule.SWITCH, 1, 100, 0, TargetType.ENEMY);
+                tempSkll.AddBuff(dotBuff);
+                break;
+
             case 7:
                 tempSkll = new Skill(army, "焰焚箕轸", SkillType.ACTIVE, 50f, 1, 23, 119);
                 dotBuff = new DotBuff(tempSkll, "燃烧", SwitchRule.SWITCH, 1, 100, 119, TargetType.ENEMY);
@@ -69,6 +75,21 @@ public class BattleEMU : MonoBehaviour
             case 8:
                 tempSkll = new Skill(army, "楚歌四起", SkillType.ACTIVE, 50f, 1, 23, 0);
                 dotBuff = new DotBuff(tempSkll, "恐慌", SwitchRule.SWITCH, 2, 100, 127, TargetType.ENEMY);
+                tempSkll.AddBuff(dotBuff);
+                break;
+            case 9:
+                tempSkll = new Skill(army, "黄天当立", SkillType.ACTIVE, 35f, 1, 33, 176);
+                dotBuff = new DotBuff(tempSkll, "妖术", SwitchRule.SWITCH, 2, 100, 96, TargetType.ENEMY);
+                tempSkll.AddBuff(dotBuff);
+                break;
+            case 10:
+                tempSkll = new Skill(army, "逆反毒杀", SkillType.ACTIVE, 35f, 0, 12, 0);
+                dotBuff = new DotBuff(tempSkll, "恐慌", SwitchRule.SWITCH, 2, 100, 83, TargetType.ENEMY);
+                tempSkll.AddBuff(dotBuff);
+                break;
+            case 11:
+                tempSkll = new Skill(army, "复誓业火", SkillType.ACTIVE, 45f, 0, 22, 0);
+                dotBuff = new DotBuff(tempSkll, "燃烧", SwitchRule.SWITCH, 2, 100, 133, TargetType.ENEMY);
                 tempSkll.AddBuff(dotBuff);
                 break;
         }

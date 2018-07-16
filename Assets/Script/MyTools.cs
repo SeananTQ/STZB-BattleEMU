@@ -164,6 +164,10 @@ public class MyTools : MonoBehaviour
         string temp = "";
         switch (type)
         {
+            case 0:
+                temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>的" + "<color=" + GameConst.Color.yellowColor +
+                        buff.effectName + "</color>" + "效果无法施加，存在一个相同或更强的效果" ;
+                break;
             case 1:
                 temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>的" + "<color=" + GameConst.Color.yellowColor +
                         buff.effectName + "</color>" + "效果已施加 (来自 " + buff.skill.name + " )";
@@ -196,7 +200,6 @@ public class MyTools : MonoBehaviour
             case BuffType.DOT:
 
                 temp = "" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】 </color>的来自" + "<color=" + GameConst.Color.greenColor + buff.skill.army.name + "</color>【" + buff.skill.name + "】的" + buff.effectName + "效果消失了";
-
                 break;
 
         }
@@ -246,7 +249,7 @@ public class MyTools : MonoBehaviour
 
 
 
-        Regex aa = new Regex(@"<[cs].+?[re]>");
+        Regex aa = new Regex(@"<.+?>");
 
         string str2 = aa.Replace(temp, "");
 
