@@ -96,7 +96,7 @@ public class Skill
     //立即施法
     private void InstantCast(Army selfArmy, List<Army> enemyList)
     {
-        MyTools.ins.ShowSkill(selfArmy, this, SkillState.INSTANT_CAST);
+        MyTools.ins.ShowCastSkill(selfArmy, this, SkillState.INSTANT_CAST);
 
         //这里应当判断对自身生效的BUFF TODO
 
@@ -231,7 +231,7 @@ public class Skill
                 {
                     //开始蓄力
                     curTime = readyTime;
-                    MyTools.ins.ShowSkill(selfArmy, this, SkillState.READY_1);
+                    MyTools.ins.ShowCastSkill(selfArmy, this, SkillState.READY_1);
                     return false;
                 }
                 else

@@ -83,13 +83,16 @@ public class Army
 
 
 
-
-    public string Attack(Army bbb)
+    //普通攻击
+    public void Attack(Army targetArmy   )
     {
-        float tempDamage = getAttackDamage(this.atk, bbb.def, this.curTroops, 1f);
+        //先计算挥出伤害
+        float outDamge = getAttackDamage(this.atk, targetArmy.def, this.curTroops, 1f);
 
-
-        return bbb.Hurt(tempDamage).ToString("0.0");
+        //再给对敌人落实伤害
+        float finalDamage = targetArmy.Hurt(outDamge,false);
+        MyTools.ins.ShowAttack(this, targetArmy);
+        MyTools.ins.ShowHurt(targetArmy, finalDamage);
     }
 
     public string Action(List<Army> enemyList)
@@ -133,6 +136,11 @@ public class Army
 
 
         //然后进行普攻
+        //暂时忽略攻击距离
+        int tempIndex = (int)MyTools.ins.getRandom(0, enemyList.Count-1);
+        Attack(enemyList[tempIndex]);
+
+
         //然后触发追击技能
 
 
@@ -162,6 +170,11 @@ public class Army
     //Dot伤害
     public void Hurt(DotBuff buff)
     {
+        if (buff.getDamage() == 0)
+        {
+            return ;
+        }
+
         //这里本应该计算自身免伤，该版本忽略TODO
         float inDamage = buff.getDamage() * 1f;
         //记录受到的伤害
@@ -224,16 +237,13 @@ public class Army
 
 
 
-
-    public float Hurt(float damage)
+    //受到普通攻击
+    public float Hurt(float damage,bool isMagic)
     {
 
         float tempCount = curTroops;
 
         // damage =    (float)  Math.Round(Convert.ToDouble(damage), MidpointRounding.AwayFromZero);
-
-
-
         curTroops -= damage;
         curTroops = Mathf.Max(0, curTroops);
 

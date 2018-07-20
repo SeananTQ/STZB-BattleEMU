@@ -100,7 +100,7 @@ public class MyTools : MonoBehaviour
     }
 
 
-    public void ShowSkill(Army army, Skill skill, SkillState state)
+    public void ShowCastSkill(Army army, Skill skill, SkillState state)
     {
         if (GameConst.CanShowText() == false)
         {
@@ -131,6 +131,23 @@ public class MyTools : MonoBehaviour
     }
 
 
+    public void ShowAttack(Army attacker,Army defender)
+    {
+
+        if (GameConst.CanShowText() == false)
+        {
+            return;
+        }
+
+        string temp = "" + "<color=" + attacker.color + "【" + attacker.name + "】</color>对" + "<color=" + defender.color + "【" + defender.name + "】</color>" + "发动普通攻击";
+
+        Append(temp);
+
+
+
+    }
+
+
     public void ShowHurt(Army army, float damage)
     {
         if (GameConst.CanShowText() == false)
@@ -138,7 +155,7 @@ public class MyTools : MonoBehaviour
             return;
         }
 
-        string temp = "\t\t" + "<color=" + GameConst.Color.redColor + "【" + army.name + "】</color>损失了" + "<color=" + GameConst.Color.yellowColor + damage.ToString("0.0") + "</color>" + "兵力 (" + army.getCount().ToString("0") + ")";
+        string temp = "\t\t" + "<color=" + army.color + "【" + army.name + "】</color>损失" + "<color=" + GameConst.Color.yellowColor + damage.ToString("0.0") + "</color>" + "兵力 (" + army.getCount().ToString("0") + ")";
 
         Append(temp);
     }

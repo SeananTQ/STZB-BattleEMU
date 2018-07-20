@@ -19,7 +19,17 @@ public class BattleEMU : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //InitBattle();
+        InitVS();
 
+        TestModel(testCount);
+
+        MyTools.ins.AllShow();
+        //  Battle();
+    }
+
+    private void InitBattle()
+    {
         enemyArmiesList = new List<Army>(3);
         enemyArmiesList.Add(new Army("敌人前锋", 50, 50, 10000));
         enemyArmiesList.Add(new Army("敌人中军", 50, 50, 10000));
@@ -28,17 +38,33 @@ public class BattleEMU : MonoBehaviour
 
         ourArmiesList = new List<Army>();
 
-        Army me = new Army("主角 ", 50, 50, 10000);
+        Army me = new Army("主角", 50, 50, 10000);
         me.AddSkill(ChooseSkill(me, "驱虎吞狼"));//给部队增加一个技能
 
+        me.color = GameConst.Color.greenColor;
+        enemyArmiesList[0].color = GameConst.Color.redColor;
+        enemyArmiesList[1].color = GameConst.Color.redColor;
+        enemyArmiesList[2].color = GameConst.Color.redColor;
+
         ourArmiesList.Add(me);
-
-
-        TestModel(testCount);
-
-        MyTools.ins.AllShow();
-        //  Battle();
+        
     }
+
+    private void InitVS()
+    {
+        enemyArmiesList = new List<Army>(1);
+        enemyArmiesList.Add(new Army("敌人", 50, 50, 10000));
+        ourArmiesList = new List<Army>();
+        Army me = new Army("主角", 50, 50, 10000);
+        //me.AddSkill(ChooseSkill(me, "驱虎吞狼"));//给部队增加一个技能
+
+        me.color = GameConst.Color.greenColor;
+        enemyArmiesList[0].color = GameConst.Color.redColor;
+        ourArmiesList.Add(me);
+    }
+
+
+
 
     private Skill ChooseSkill(Army army,string name)
     {
@@ -149,6 +175,7 @@ public class BattleEMU : MonoBehaviour
             temp.ResetData();
         }
 
+        //开始8回合战斗
         for (int i = 0; i < 8; i++)
         {
             MyTools.ins.ShowTrun(i + 1);
@@ -158,35 +185,34 @@ public class BattleEMU : MonoBehaviour
     }
 
     //一回合战斗
-    private void OneTrunFight(List<Army> attackerList, List<Army> defenderList)
+    private void OneTrunFight(List<Army> playerList, List<Army> enemyList)
     {
+        List<Army> attacker= new List<Army>();
+        List<Army> defender=new List<Army>();
+
+
         if (playerFirstAction)
         {
-            for (int i = 0; i < attackerList.Count; i++)
-            {
-                attackerList[i].Action(defenderList);
-            }
-
-            for (int i = 0; i < defenderList.Count; i++)
-            {
-                defenderList[i].Action(attackerList);
-            }
-
-
+            attacker = playerList;
+            defender = enemyList;
         }
         else
         {
-            for (int i = 0; i < defenderList.Count; i++)
-            {
-                defenderList[i].Action(attackerList);
-            }
-            for (int i = 0; i < attackerList.Count; i++)
-            {
-                attackerList[i].Action(defenderList);
-            }
-
-
+            attacker = enemyList;
+            defender = playerList ;
         }
+
+        for (int i = 0; i < attacker.Count; i++)
+        {
+            attacker[i].Action(defender);
+        }
+
+        for (int i = 0; i < defender.Count; i++)
+        {
+            defender[i].Action(attacker);
+        }
+
+
 
 
     }
