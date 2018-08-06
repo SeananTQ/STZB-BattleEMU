@@ -17,6 +17,7 @@ public class Skill
     private int curTime = 0;//当前需要准备的回合数
 
     public float damageRate = 100;//伤害率
+    public float hitRate = 100;//命中率
 
     public float curDamge = 0;
     private float totalDamage = 0;
@@ -26,7 +27,9 @@ public class Skill
 
     public Army army;
     public SkillType skillType;
-    
+
+    public List<Skill> subSkillList;
+    public int subSKillModel;
     /// <summary>
     /// 技能构造函数
     /// </summary>
@@ -34,18 +37,24 @@ public class Skill
     /// <param name="castRate">发动概率</param>
     /// <param name="readyTime">准备回合数</param>
     /// <param name="targetCount">可攻击目标数量，十位为下限，个位为上限</param>
-    /// <param name="damage">技能伤害率</param>
-    public Skill(Army army,string name,SkillType skillType, float castRate, int readyTime, int targetCount, float damage)
+    /// <param name="damageRate">技能伤害率</param>
+    /// <param name="hitRate">技能命中率</param>
+    public Skill(Army army,string name,SkillType skillType, float castRate, int readyTime, int targetCount, float damageRate,float hitRate=100)
     {
         this.name = name;
         this.castRate = castRate;
         this.readyTime = readyTime;
         this.targetLowerCount = targetCount / 10;
         this.targetUpperCount = targetCount % 10;
-        this.damageRate = damage;
+        this.damageRate = damageRate;
+        this.hitRate= hitRate;
         this.army = army;
         this.skillType = skillType;
         buffList = new List<BuffClass>();
+
+        subSkillList = new List<Skill>();
+
+        subSKillModel = 1;
     }
 
     //重置状态，用于开始下一场战斗
@@ -104,7 +113,8 @@ public class Skill
         curTrunTargetCount = RandTargetCount();
         //这里应当判断攻击距离TODO
 
-        List<Army> tempEnemyList = new List<Army>();
+
+        List<Army> tempEnemyList = new List<Army>();//被击中的目标列表
 
         //然后判断该技能攻击目标的数量，3全打，1、2随机
         switch (curTrunTargetCount)
@@ -112,14 +122,16 @@ public class Skill
             case 3:
                 for (int i = 0; i < enemyList.Count; i++)
                 {
-                    if (this.damageRate > Mathf.Epsilon)//判断仅能是否有直接伤害，有些毒技能没有直接伤害
+                    float temp = MyTools.ins.getRandom(0, 100);
+                    if (temp < hitRate)
                     {
-                        enemyList[i].Hurt(selfArmy, this);
-                    }
-       
+                        if (this.damageRate > Mathf.Epsilon)//判断仅能是否有直接伤害，有些毒技能没有直接伤害
+                        {
+                            enemyList[i].Hurt(selfArmy, this);
+                        }
 
-                    tempEnemyList.Add(enemyList[i]);
-      
+                        tempEnemyList.Add(enemyList[i]);
+                    }
                 }
 
                 break;
@@ -198,7 +210,7 @@ public class Skill
     //}
 
 
-    public bool IsCast(Army selfArmy, List<Army> enemyList)
+    public bool DoCast(Army selfArmy, List<Army> enemyList)
     {
         float rand;
         //先判断是否为需要蓄力的法术

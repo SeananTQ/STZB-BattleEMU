@@ -117,7 +117,14 @@ public class MyTools : MonoBehaviour
                 break;
 
             case SkillState.INSTANT_CAST:
-                temp = "<color=" + GameConst.Color.greenColor + "【" + army.name + "】</color>发动【" + skill.name + "】！";
+                if (skill.name.Equals("") == false)
+                {
+                    temp = "<color=" + army.color + "【" + army.name + "】</color>发动【" + skill.name + "】！";
+                }
+                else
+                {
+                    return;
+                }
                 break;
 
             case SkillState.DAMAGE:
@@ -155,20 +162,33 @@ public class MyTools : MonoBehaviour
             return;
         }
 
-        string temp = "\t\t" + "<color=" + army.color + "【" + army.name + "】</color>损失" + "<color=" + GameConst.Color.yellowColor + damage.ToString("0.0") + "</color>" + "兵力 (" + army.getCount().ToString("0") + ")";
+        string temp = "\t\t" + "<color=" + army.color + "【" + army.name + "】</color>损失了" + "<color=" + GameConst.Color.yellowColor + damage.ToString("0.0") + "</color>" + "兵力 (" + army.getCount().ToString("0") + ")";
 
         Append(temp);
     }
 
-    public void ShowDotHurt(Army defender, DotBuff buff)
+    public void ShowDotHurt(Army defender, DotBuff buff,bool hit)
     {
         if (GameConst.CanShowText() == false)
         {
             return;
         }
-        string temp = "" + "<color=" + GameConst.Color.redColor + "【" + defender.name + "】 </color>由于" + buff.skill.army.name +
-            "【" + buff.skill.name + "】施加的" + buff.effectName + "效果损失了<color=" + GameConst.Color.yellowColor + buff.dotDamage.ToString("0.0") +
-            "</color>" + "兵力 (" + defender.getCount().ToString("0") + ") [剩" + buff.currentRound + "回合]";
+
+        string temp = "";
+        if (hit)
+        {
+          temp = "" + "<color=" + GameConst.Color.redColor + "【" + defender.name + "】 </color>由于" + buff.skill.army.name +
+    "【" + buff.skill.name + "】施加的" + buff.effectName + "效果损失了<color=" + GameConst.Color.yellowColor + buff.dotDamage.ToString("0.0") +
+    "</color>" + "兵力 (" + defender.getCount().ToString("0") + ") [剩" + buff.currentRound + "回合]";
+
+        }
+        else
+        {
+            temp = "" + "<color=" + buff.skill.army.color+ "【" + buff.skill.army.name + "】</color>"+"【"+buff.skill.name+"】的" + buff.effectName +
+                        "对 <color=" + defender.color + "【"+ defender.name+"】" + " </color>没有生效";
+
+        }
+
         Append(temp);
     }
 

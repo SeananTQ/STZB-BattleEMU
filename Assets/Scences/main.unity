@@ -1290,7 +1290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b6ccf9d8a3382043b5eb641c10ce442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testCount: 10
+  testCount: 20
   enemyArmiesList: []
   ourArmiesList: []
   playerFirstAction: 1

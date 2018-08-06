@@ -26,7 +26,7 @@ public class Army
 
     public Army(string name, float atk, float def, float count)
     {
-        this.name =  name ;
+        this.name = name;
         this.atk = atk;
         this.def = def;
         this.maxTroops = count;
@@ -35,7 +35,7 @@ public class Army
         buffQueue = new List<BuffClass>();
         skillList = new List<Skill>();
         hurtEventList = new List<HurtEvent>();
-}
+    }
 
     public void ResetData()
     {
@@ -43,7 +43,7 @@ public class Army
         {
             temp.ResetData();
         }
-        
+
         //清空身上挂的BUFF
         buffQueue = new List<BuffClass>();
         //恢复兵力
@@ -84,13 +84,13 @@ public class Army
 
 
     //普通攻击
-    public void Attack(Army targetArmy   )
+    public void Attack(Army targetArmy)
     {
         //先计算挥出伤害
         float outDamge = getAttackDamage(this.atk, targetArmy.def, this.curTroops, 1f);
 
         //再给对敌人落实伤害
-        float finalDamage = targetArmy.Hurt(outDamge,false);
+        float finalDamage = targetArmy.Hurt(outDamge, false);
         MyTools.ins.ShowAttack(this, targetArmy);
         MyTools.ins.ShowHurt(targetArmy, finalDamage);
     }
@@ -104,18 +104,18 @@ public class Army
         //首先结算自身的BUFF
         for (int i = 0; i < buffQueue.Count; i++)
         {
-            BuffClass temp =buffQueue[i];
+            BuffClass temp = buffQueue[i];
 
             //MyTools.ppp(temp.effectName);
 
             if (temp.DoEffect(this) == false)
             {
                 removeList.Add(temp);//标记删除
-            } 
+            }
 
         }
 
-        for (int i = removeList.Count-1; i >= 0; i--)
+        for (int i = removeList.Count - 1; i >= 0; i--)
         {
             var tempBuff = removeList[i];
             MyTools.ins.ShowRemoveBuff(this, tempBuff);
@@ -128,17 +128,12 @@ public class Army
         //然后判断自身是否可以行动，死没晕没
 
         //然后按照顺序触发主动技能
-        for (int i = 0; i < skillList.Count; i++)
-        {
-            skillList[i].IsCast(this,enemyList);
-
-        }
-
+        CastAllSkill(skillList, enemyList);
 
         //然后进行普攻
         //暂时忽略攻击距离
-        int tempIndex = (int)MyTools.ins.getRandom(0, enemyList.Count-1);
-        Attack(enemyList[tempIndex]);
+        //  int tempIndex = (int)MyTools.ins.getRandom(0, enemyList.Count-1);
+        //   Attack(enemyList[tempIndex]);
 
 
         //然后触发追击技能
@@ -146,6 +141,46 @@ public class Army
 
         return null;
     }
+
+    private bool RandomCastSkill(List<Skill> skills, List<Army> targetList)
+    {
+        int randIndex = (int)MyTools.ins.getRandom(0, skills.Count - 1);
+        skills[randIndex].DoCast(this, targetList);
+        return false;
+    }
+
+
+    private bool CastAllSkill(List<Skill> skills, List<Army> targetList)
+    {
+        for (int i = 0; i < skills.Count; i++)
+        {
+            Skill tempSkill = skills[i];
+
+            bool isCast = tempSkill.DoCast(this, targetList);
+            if (isCast && tempSkill.subSkillList.Count > 0)
+            {
+                switch (tempSkill.subSKillModel)
+                {
+                    case 1:
+                        bool isCast2 = CastAllSkill(tempSkill.subSkillList, targetList);
+                        if (isCast2)
+                        {
+                            MyTools.ppp("触发爆炸" + i);
+                        }
+                        break;
+                    case 2:
+                        RandomCastSkill(tempSkill.subSkillList, targetList);
+                        break;
+
+                }
+
+            }
+        }
+
+
+        return false;
+    }
+
 
 
     public void Hurt(Army attacker, Skill skill)
@@ -157,7 +192,7 @@ public class Army
         this.curHurtDamage += inDamage;
         totalhurtDamage += curHurtDamage;
         curTroops = Mathf.Max(0, curTroops - inDamage);
-            
+
 
         HurtEvent hurtEvent = new HurtEvent(attacker.name, skill.name, inDamage);
 
@@ -172,8 +207,16 @@ public class Army
     {
         if (buff.getDamage() == 0)
         {
-            return ;
+            return;
         }
+
+        float tempRand = MyTools.ins.getRandom(0, 100);
+        if (tempRand >= buff.dotRate)
+        {
+            MyTools.ins.ShowDotHurt(this, buff,false);
+            return;
+        }
+
 
         //这里本应该计算自身免伤，该版本忽略TODO
         float inDamage = buff.getDamage() * 1f;
@@ -186,7 +229,7 @@ public class Army
         HurtEvent hurtEvent = new HurtEvent(buff.skill.army.name, buff.skill.name, inDamage);
 
         hurtEventList.Add(hurtEvent);
-        MyTools.ins.ShowDotHurt(this, buff);
+        MyTools.ins.ShowDotHurt(this, buff,true);
 
     }
     //中buff
@@ -212,12 +255,12 @@ public class Army
                     {
                         buffQueue.Remove(tempBuff);
                         buffQueue.Add(buff);
-                        MyTools.ins.ShowHitBuff(this, buff,2);
+                        MyTools.ins.ShowHitBuff(this, buff, 2);
                     }
                     else
                     {
                         //存在一个更强大的BUFF
-                        MyTools.ins.ShowHitBuff(this, buff,0);
+                        MyTools.ins.ShowHitBuff(this, buff, 0);
                     }
                     break;
 
@@ -228,7 +271,7 @@ public class Army
         {
             //未找到则直接追加
             buffQueue.Add(buff);
-            MyTools.ins.ShowHitBuff(this, buff,1);
+            MyTools.ins.ShowHitBuff(this, buff, 1);
         }
 
 
@@ -238,7 +281,7 @@ public class Army
 
 
     //受到普通攻击
-    public float Hurt(float damage,bool isMagic)
+    public float Hurt(float damage, bool isMagic)
     {
 
         float tempCount = curTroops;
@@ -268,7 +311,7 @@ public class Army
     }
 
 
-    public  struct HurtEvent
+    public struct HurtEvent
     {
         public string attackerName;
         public string skillName;
@@ -283,31 +326,31 @@ public class Army
         }
     }
 
-    public void SummaryData(List<Army> enemyArmies,float testCount)
+    public void SummaryData(List<Army> enemyArmies, float testCount)
     {
-        List<HurtEvent> tempList=new List<HurtEvent>();
+        List<HurtEvent> tempList = new List<HurtEvent>();
 
         for (int i = 0; i < enemyArmies.Count; i++)
         {
             Army tempArmy = enemyArmies[i];
             //将攻击者为自己的伤害事件筛选出来。
-            tempList= tempList.Concat<HurtEvent>(tempArmy.hurtEventList.Where(x => x.attackerName == this.name).ToList()).ToList();
+            tempList = tempList.Concat<HurtEvent>(tempArmy.hurtEventList.Where(x => x.attackerName == this.name).ToList()).ToList();
 
             //tempList = tempArmy.hurtEventList.Where(x => x.attackerName.Equals(name)).ToList();
         }
 
-     //   MyTools.ppp(enemyArmies[0].hurtEventList[0].attackerName+">>>" + tempList.Count);
+        //   MyTools.ppp(enemyArmies[0].hurtEventList[0].attackerName+">>>" + tempList.Count);
 
         for (int i = 0; i < skillList.Count; i++)
         {
             //将技能名字符合的选择出来
             string tempName = skillList[i].name;
-            float totalDamage=  tempList.Where(n => n.skillName == tempName).Select(x => x.damage).Sum();
+            float totalDamage = tempList.Where(n => n.skillName == tempName).Select(x => x.damage).Sum();
 
             MyTools.ins.ShowSkillAverageDamage(this, testCount, skillList[i], totalDamage);
         }
-        
-     
+
+
 
     }
 
